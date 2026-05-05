@@ -1,0 +1,35 @@
+# cronwatch configuration file
+
+# Directory to store job state files
+state_dir: /var/lib/cronwatch
+
+# Path to the cronwatch log file
+log_file: /var/log/cronwatch.log
+
+# How often (in seconds) cronwatch checks job schedules
+check_interval: 60
+
+# Global alert settings
+alerts:
+  email: ops@example.com
+  smtp_host: smtp.example.com
+  smtp_port: 587
+  smtp_user: alerts@example.com
+  smtp_password: secret
+
+# List of monitored cron jobs
+jobs:
+  - name: daily-backup
+    schedule: "0 2 * * *"   # every day at 02:00
+    timeout: 7200            # seconds before considered hung
+    alert_email: backup-team@example.com
+    max_retries: 1
+
+  - name: hourly-sync
+    schedule: "0 * * * *"   # every hour
+    timeout: 300
+
+  - name: weekly-report
+    schedule: "0 8 * * 1"   # every Monday at 08:00
+    timeout: 1800
+    alert_email: reports@example.com
