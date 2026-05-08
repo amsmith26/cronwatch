@@ -52,6 +52,12 @@ Check status of all monitored jobs:
 cronwatch status
 ```
 
+Stop the daemon:
+
+```bash
+cronwatch stop
+```
+
 ---
 
 ## Configuration
@@ -61,6 +67,7 @@ cronwatch status
 | `schedule` | Cron expression for expected run time    | required |
 | `timeout`  | Max allowed runtime in seconds           | `60`     |
 | `alert`    | Alert channel (`email`, `slack`, `webhook`) | `email` |
+| `retries`  | Number of alert retries on failure       | `0`      |
 
 ---
 
