@@ -52,3 +52,21 @@ def render_text(snapshot: SystemSnapshot) -> str:
         )
     lines.append("-" * 72)
     return "\n".join(lines)
+
+
+def render_csv(snapshot: SystemSnapshot) -> str:
+    """Return the snapshot as a CSV string suitable for spreadsheet import.
+
+    The first row contains column headers. Each subsequent row represents
+    one :class:`~cronwatch.snapshot.JobSnapshot`.
+    """
+    header = "name,schedule,total_runs,success_rate,avg_duration_seconds,last_status,last_finished_at,is_overdue,seconds_until_next_run"
+    rows = [header]
+    for j in snapshot.jobs:
+        last_finished = j.last_finished_at.isoformat() if j.last_finished_at else ""
+        rows.append(
+            f"{j.name},{j.schedule},{j.total_runs},{round(j.success_rate, 4)},"
+            f"{round(j.avg_duration_seconds, 3)},{j.last_status},{last_finished},"
+            f"{j.is_overdue},{round(j.seconds_until_next_run, 1)}"
+        )
+    return "\n".join(rows)
