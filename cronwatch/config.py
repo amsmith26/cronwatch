@@ -41,6 +41,9 @@ class CronwatchConfig:
 
 
 def _parse_job(raw: Dict[str, Any]) -> JobConfig:
+    for required in ("name", "schedule"):
+        if not raw.get(required):
+            raise ValueError(f"Job entry is missing required field: '{required}'")
     return JobConfig(
         name=raw["name"],
         schedule=raw["schedule"],
