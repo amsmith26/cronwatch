@@ -87,3 +87,13 @@ def hooks_summary(cfg: HookConfig) -> str:
     if cfg.post_failure:
         parts.append(f"post_failure({len(cfg.post_failure)}): {', '.join(cfg.post_failure)}")
     return "; ".join(parts) if parts else "no hooks configured"
+
+
+def any_hooks_failed(results: List[HookResult]) -> bool:
+    """Return True if any hook result in the list indicates a failure."""
+    return any(not r.ok for r in results)
+
+
+def failed_hooks(results: List[HookResult]) -> List[HookResult]:
+    """Return only the failed hook results from a list of results."""
+    return [r for r in results if not r.ok]
